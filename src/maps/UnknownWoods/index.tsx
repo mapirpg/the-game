@@ -5,12 +5,15 @@ import {
   allowEvents,
   allowTargets,
   initialTargets,
+  allowEnvDamage,
 } from './Ground/constants'
-import { rng } from '../../data/rng'
+import { rngData } from '../../data/rng'
 import { Center, View } from 'native-base'
 import { roll100 } from '../../utils/roll'
+import { itemsData } from '../../data/items'
 import { Status } from '../../components/Status'
 import { TargetProps } from '../../types/target'
+import { findSpots } from '../../utils/findSpots'
 import { useEffect, useMemo, useState } from 'react'
 import { useGroundElements } from './Ground/elements'
 import { Character } from '../../components/Character'
@@ -20,13 +23,12 @@ import { useInventory } from '../../hooks/useInventory'
 import { useGroundElements2 } from './Ground2/elements'
 import { useController } from '../../hooks/useController'
 import { Environment } from '../../components/Environment'
-import { dataItems } from '../../data/items'
 
 export const UnknownWoods = () => {
   const { items, addItem } = useInventory({
     initialItems: [
       {
-        ...dataItems.weapons.sword,
+        ...itemsData.weapons.sword,
       },
     ],
   })
@@ -34,6 +36,7 @@ export const UnknownWoods = () => {
   const [targets, setTargets] = useState<TargetProps[]>(initialTargets)
   const { elements, mapSpots } = useGroundElements({ targets })
   const { elements2, mapSpots2 } = useGroundElements2({ targets: [] })
+
   const {
     move,
     attack,
@@ -100,7 +103,7 @@ export const UnknownWoods = () => {
               return t
             })
 
-            if (roll100() < rng.damagedByFlowers * 100) {
+            if (roll100() < rngData.damagedByFlowers * 100) {
               changeStatus({ damage: 1 })
             }
             setTargets(newTargets)
@@ -120,6 +123,26 @@ export const UnknownWoods = () => {
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [health])
+
+  useEffect(() => {
+    allowEnvDamage.forEach((event) => {
+      const spots = findSpots(event.id, mapSpots)
+
+      if (spots.length > 0) {
+        spots.forEach((spot) => {
+          if (spot.x === position.x && spot.y === position.y) {
+            if (event.timer) {
+              setTimeout(() => {
+                changeStatus({ damage: event.damage })
+              }, event.timer)
+            } else {
+              changeStatus({ damage: event.damage })
+            }
+          }
+        })
+      }
+    })
+  }, [changeStatus, position, mapSpots])
 
   return (
     <Center flex={1} backgroundColor={'#252525'}>

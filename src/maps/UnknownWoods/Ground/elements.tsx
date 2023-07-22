@@ -6,12 +6,13 @@ import * as Forest from '../../../sprites/Map/Forest'
 import * as Ravine from '../../../sprites/Map/Ravine'
 import * as Terrain from '../../../sprites/Map/Terrain'
 import * as General from '../../../sprites/Objects/General'
+import * as Fire from '../../../sprites/Map/Fire'
 
 import { useMemo, useState } from 'react'
 import { defaultBg, waterBg } from '../styles'
+import { findSpot } from '../../../utils/findSpot'
 import { TargetProps } from '../../../types/target'
 import { allowTargets, headquarters } from './constants'
-import { findModifiedSpot } from '../../../utils/findModifiedSpot'
 import { PineA1, PineB1, PineC1 } from '../../../sprites/Map/Trees'
 
 export const useGroundElements = ({ targets }: { targets: TargetProps[] }) => {
@@ -24,12 +25,12 @@ export const useGroundElements = ({ targets }: { targets: TargetProps[] }) => {
       const targetHealth = targets.find((t) => t.id === target)?.health
 
       if (targetHealth === 0) {
-        const modifiedSpot = findModifiedSpot(target, mapSpots)
+        const modifiedSpot = findSpot(target, mapSpots)
 
         if (modifiedSpot) {
           const newMapSpots = [...mapSpots]
-          const { mainIndex, subIndex } = modifiedSpot
-          newMapSpots[mainIndex][subIndex] = 0
+          const { y, x } = modifiedSpot
+          newMapSpots[y][x] = 0
           setMapSpots(newMapSpots)
         }
       }
@@ -99,7 +100,8 @@ export const useGroundElements = ({ targets }: { targets: TargetProps[] }) => {
     48: <Terrain.Grass />,
     49: <Water.WaterBorderLeft2 />,
     50: <Water.WaterBorderRight2 />,
-    51: <Door.CaveDoorB2 />
+    51: <Door.CaveDoorB2 />,
+    52: <Fire.Fire {...defaultBg} />
   }
 
   return { elements, mapSpots }

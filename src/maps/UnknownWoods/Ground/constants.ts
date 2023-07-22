@@ -1,7 +1,10 @@
 /* eslint-disable prettier/prettier */
-import { dataItems } from '../../../data/items'
+import { itemsData } from '../../../data/items'
 import { TargetProps } from '../../../types/target'
 import { InventoryProps } from '../../../types/inventory'
+import { timersData } from '../../../data/timers'
+import { EnvDamageProps } from '../../../types/environment'
+import { environmentData } from '../../../data/environment'
 
 export const headquarters = [
   [29, 24, 24, 24, 22, 23, 23, 23, 23, 23, 23, 23, 18, 4, 4, 4, 4, 4, 31, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23],
@@ -9,7 +12,7 @@ export const headquarters = [
   [29, 0, 0, 0, 20, 19, 19, 19, 19, 19, 19, 19, 15, 6, 6, 6, 6, 6, 16, 19, 19, 19, 19, 19, 19, 19, 19, 19, 19],
   [29, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 12, 8, 8, 8, 8, 8, 14, 0, 0, 0, 0, 0, 0,0, 0, 0, 0],
   [29, 0, 36, 0, 0, 0, 0, 0, 0, 0, 0, 0, 11, 10, 5, 10, 10, 10, 13, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-  [29, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 11, 10, 10, 10, 5, 10, 14, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+  [29, 0, 0, 0, 52, 0, 0, 0, 0, 0, 0, 0, 11, 10, 10, 10, 5, 10, 14, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
   [29, 0, 0, 0, 0, 0, 0, 0, 0, 0, 37, 38, 12, 10, 5, 10, 10, 10, 14, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
   [29, 0, 0, 0, 0, 0, 0, 0, 0, 0, 39, 40, 12, 10, 10, 10, 5, 10, 13, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
   [29, 0, 0, 0, 0, 0, 0, 0, 0, 0, 41, 42, 12, 10, 10, 5, 10, 10, 13, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
@@ -47,11 +50,18 @@ export const initialTargets: TargetProps[] = [
   { id: 43, health: 1},
 ]
 
-export const allowSlots = [0, 11, 12, 13, 14, 32, 33, 34, 35, 51]
+export const allowSlots = [0, 11, 12, 13, 14, 32, 33, 34, 35, 51, 52]
 export const allowEvents = [36]
 export const allowTargets = [37, 38, 39, 40, 41, 42, 43]
 export const allowLoots = [36]
+export const allowEnvDamage: EnvDamageProps[] = [
+  {
+    id: 52,
+    timer: timersData.envFireDot,
+    damage: environmentData.fireDamage
+  }
+]
 
 export const loots: Record<number, InventoryProps> = {
-  36: dataItems.weapons.sword
+  36: itemsData.weapons.sword
 }
