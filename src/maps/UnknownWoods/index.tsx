@@ -5,8 +5,8 @@ import {
   allowEvents,
   allowTargets,
   initialTargets,
-} from './constants'
-import { useElements } from './elements'
+} from './Ground/constants'
+import { useGroundElements } from './Ground/elements'
 import { Center, View } from 'native-base'
 import { TargetProps } from '../../types/target'
 import { useEffect, useMemo, useState } from 'react'
@@ -16,13 +16,17 @@ import { useCharacter } from '../../hooks/useCharacter'
 import { useInventory } from '../../hooks/useInventory'
 import { useController } from '../../hooks/useController'
 import { Environment } from '../../components/Environment'
+import { useGroundElements2 } from './Ground2/elements'
 
 export const UnknownWoods = () => {
   const { items, addItem } = useInventory()
   const { movement, interaction, meleeAttack } = useController()
   const [targets, setTargets] = useState<TargetProps[]>(initialTargets)
-  const { elements, mapSpots } = useElements({ targets })
-  const { direction, position, move, interact, attack } = useCharacter()
+  const { elements, mapSpots } = useGroundElements({ targets })
+  const { elements2, mapSpots2 } = useGroundElements2({ targets: [] })
+  const { direction, position, move, interact, attack } = useCharacter({
+    initialPosition: { x: 28, y: 28 },
+  })
 
   const weapon = useMemo(() => items.find((item) => item.id === 1), [items])
 
@@ -91,11 +95,7 @@ export const UnknownWoods = () => {
     <Center flex={1} backgroundColor={'#252525'}>
       <View w={480} h={480}>
         <Inventory items={items} />
-        <Environment
-          targets={targets}
-          elements={elements}
-          mapSpots={mapSpots}
-        />
+        <Environment zIndex={-1} elements={elements} mapSpots={mapSpots} />
         <Character
           name={'Player'}
           inventory={items}
@@ -103,6 +103,12 @@ export const UnknownWoods = () => {
           top={position.y * 16}
           left={position.x * 16}
           meleeAttack={meleeAttack}
+        />
+        <Environment
+          zIndex={1}
+          position={'absolute'}
+          elements={elements2}
+          mapSpots={mapSpots2}
         />
       </View>
     </Center>

@@ -13,7 +13,12 @@ export const Inventory = ({ items }: Props) => {
   }
 
   return (
-    <HStack backgroundColor={'#00000050'} position={'absolute'} right={'16px'}>
+    <HStack
+      backgroundColor={'#00000050'}
+      zIndex={10}
+      position={'absolute'}
+      right={'16px'}
+    >
       {items?.map(({ id }) => <View key={id}>{possibleItems[id]}</View>)}
     </HStack>
   )

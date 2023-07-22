@@ -1,18 +1,19 @@
 /* eslint-disable prettier/prettier */
-import * as Water from '../../sprites/Map/Water'
-import * as Stone from '../../sprites/Map/Stone'
-import * as Forest from '../../sprites/Map/Forest'
-import * as Ravine from '../../sprites/Map/Ravine'
-import * as Terrain from '../../sprites/Map/Terrain'
-import * as General from '../../sprites/Objects/General'
+import * as Water from '../../../sprites/Map/Water'
+import * as Stone from '../../../sprites/Map/Stone'
+import * as Forest from '../../../sprites/Map/Forest'
+import * as Ravine from '../../../sprites/Map/Ravine'
+import * as Terrain from '../../../sprites/Map/Terrain'
+import * as General from '../../../sprites/Objects/General'
 
 import { useMemo, useState } from 'react'
-import { defaultBg, waterBg } from './styles'
-import { TargetProps } from '../../types/target'
+import { defaultBg, waterBg } from '../styles'
+import { TargetProps } from '../../../types/target'
 import { allowTargets, headquarters } from './constants'
-import { findModifiedSpot } from '../../utils/findModifiedSpot'
+import { findModifiedSpot } from '../../../utils/findModifiedSpot'
+import { PineA1, PineB1, PineC1 } from '../../../sprites/Map/Trees'
 
-export const useElements = ({ targets }: { targets: TargetProps[] }) => {
+export const useGroundElements = ({ targets }: { targets: TargetProps[] }) => {
   const [mapSpots, setMapSpots] = useState<number[][]>(headquarters)
 
   const { chestOpen, eventSpots } = useMemo(() => {
@@ -91,6 +92,12 @@ export const useElements = ({ targets }: { targets: TargetProps[] }) => {
     41: eventSpots[41] > 0 ? <General.FlowerVase1 {...defaultBg} /> : <Terrain.Grass />,
     42: eventSpots[42] > 0 ? <General.FlowerVase1 {...defaultBg} /> : <Terrain.Grass />,
     43: eventSpots[43] > 0 ? <General.FlowerVase1 {...defaultBg} /> : <Terrain.Grass />,
+    45: <PineA1 {...defaultBg} />,
+    46: <PineB1 {...defaultBg} />,
+    47: <PineC1  {...defaultBg} />,
+    48: <Terrain.Grass />,
+    49: <Water.WaterBorderLeft2 />,
+    50: <Water.WaterBorderRight2 />
   }
 
   return { elements, mapSpots }

@@ -1,6 +1,7 @@
 import world from '../assets/world.png'
 import objects from '../assets/objects.png'
 import weapons from '../assets/weapons.png'
+import trees from '../assets/trees.png'
 
 export const base = {
   world: `
@@ -21,5 +22,12 @@ export const base = {
     height: 32px;
     background-image: url(${weapons});
     background-size: 320px 320px;
+  `,
+  trees: `
+    width: 16px;
+    height: 16px;
+    background-image: url(${trees});
+    background-size: 1087px 1088px;
+    background-repeat: no-repeat;
   `,
 }
