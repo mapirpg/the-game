@@ -3,21 +3,17 @@ import { TargetProps } from '../../types/target'
 
 interface Props {
   targets: TargetProps[]
-  headquarters: number[][]
-  elements: ({
-    targets,
-  }: {
-    targets: TargetProps[]
-  }) => Record<number, React.ReactNode>
+  mapSpots: number[][]
+  elements: Record<number, React.ReactNode>
 }
 
-export const Environment = ({ targets, elements, headquarters }: Props) => {
+export const Environment = ({ elements, mapSpots }: Props) => {
   return (
     <Box zIndex={-1}>
-      {headquarters.map((row, y) => (
+      {mapSpots.map((row, y) => (
         <HStack key={y}>
-          {headquarters[y].map((column, x) => (
-            <View key={x}>{elements({ targets })[column]}</View>
+          {mapSpots[y].map((column, x) => (
+            <View key={x}>{elements[column]}</View>
           ))}
         </HStack>
       ))}

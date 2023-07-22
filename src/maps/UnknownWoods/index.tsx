@@ -4,10 +4,9 @@ import {
   allowSlots,
   allowEvents,
   allowTargets,
-  headquarters,
   initialTargets,
 } from './constants'
-import { elements } from './elements'
+import { useElements } from './elements'
 import { Center, View } from 'native-base'
 import { TargetProps } from '../../types/target'
 import { useEffect, useMemo, useState } from 'react'
@@ -22,12 +21,13 @@ export const UnknownWoods = () => {
   const { items, addItem } = useInventory()
   const { movement, interaction, meleeAttack } = useController()
   const [targets, setTargets] = useState<TargetProps[]>(initialTargets)
+  const { elements, mapSpots } = useElements({ targets })
   const { direction, position, move, interact, attack } = useCharacter()
 
   const weapon = useMemo(() => items.find((item) => item.id === 1), [items])
 
   useEffect(() => {
-    move({ direction: movement, mapSpots: headquarters, allowSlots })
+    move({ direction: movement, mapSpots, allowSlots })
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [movement])
@@ -35,15 +35,16 @@ export const UnknownWoods = () => {
   useEffect(() => {
     if (interaction) {
       allowEvents.forEach((event) => {
+        if (event === 36 && weapon) return
         const existsEvent = targets.find((target) => target.id === event)
         const existsLoot = allowLoots.find((loot) => loot === event)
 
         if (existsEvent) {
           interact({
-            event: event,
+            mapSpots,
             allowEvents,
+            event: event,
             dir: direction,
-            mapSpots: headquarters,
             doIt: () => {
               const newTargets = targets.map((target) => {
                 if (target.id === event) {
@@ -67,11 +68,11 @@ export const UnknownWoods = () => {
       allowTargets.forEach((target) => {
         attack({
           target,
+          mapSpots,
           allowTargets,
-          mapSpots: headquarters,
           doIt: () => {
             const newTargets = targets.map((t) => {
-              if (t.id === target) {
+              if (t.health && t.id === target) {
                 t.health -= weapon.damage ?? 0
               }
               return t
@@ -93,7 +94,7 @@ export const UnknownWoods = () => {
         <Environment
           targets={targets}
           elements={elements}
-          headquarters={headquarters}
+          mapSpots={mapSpots}
         />
         <Character
           name={'Player'}

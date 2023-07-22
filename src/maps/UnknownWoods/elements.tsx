@@ -6,18 +6,47 @@ import * as Ravine from '../../sprites/Map/Ravine'
 import * as Terrain from '../../sprites/Map/Terrain'
 import * as General from '../../sprites/Objects/General'
 
+import { useMemo, useState } from 'react'
 import { defaultBg, waterBg } from './styles'
 import { TargetProps } from '../../types/target'
+import { allowTargets, headquarters } from './constants'
+import { findModifiedSpot } from '../../utils/findModifiedSpot'
 
-export const elements = ({
-  targets
-}: {
-  targets: TargetProps[]
-}) => {
-  const chestOpen = targets.find((target) => target.id === 36)?.active
-  const vase1Health = targets.find((target) => target.id === 37)?.health
+export const useElements = ({ targets }: { targets: TargetProps[] }) => {
+  const [mapSpots, setMapSpots] = useState<number[][]>(headquarters)
 
-  const components: Record<number, React.ReactNode> = {
+  const { chestOpen, eventSpots } = useMemo(() => {
+    let eventSpots: Record<number, number> = {}
+
+    allowTargets.forEach((target) => {
+      const targetHealth = targets.find((t) => t.id === target)?.health
+
+      if (targetHealth === 0) {
+        const modifiedSpot = findModifiedSpot(target, mapSpots)
+
+        if (modifiedSpot) {
+          const newMapSpots = [...mapSpots]
+          const { mainIndex, subIndex } = modifiedSpot
+          newMapSpots[mainIndex][subIndex] = 0
+          setMapSpots(newMapSpots)
+        }
+      }
+
+      eventSpots = {
+        ...eventSpots,
+        [target]: targetHealth || 0,
+      }
+    })
+
+    return {
+      eventSpots,
+      chestOpen: targets.find((target) => target.id === 36)?.active,
+    }
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [targets])
+
+  const elements: Record<number, React.ReactNode> = {
     0: <Terrain.Grass />,
     1: <Forest.WoodVLeft {...defaultBg} />,
     2: <Forest.WoodVMiddle {...defaultBg} />,
@@ -53,9 +82,16 @@ export const elements = ({
     32: <Forest.WoodVLeft {...defaultBg} />,
     33: <Forest.WoodVMiddle {...waterBg} />,
     34: <Forest.WoodVRight {...defaultBg} />,
-    35: <Forest.WoodVMiddle {...defaultBg}/>,
-    36: chestOpen ? <General.ChestOpen {...defaultBg}/> : <General.ChestClosed {...defaultBg} />,
-    37: vase1Health && vase1Health > 0 ? <General.FlowerVase1 {...defaultBg} /> : <Terrain.Grass />,
+    35: <Forest.WoodVMiddle {...defaultBg} />,
+    36: chestOpen ? <General.ChestOpen {...defaultBg} />  : <General.ChestClosed {...defaultBg} />,
+    37: eventSpots[37] > 0 ? <General.FlowerVase1 {...defaultBg} /> :  <Terrain.Grass />,
+    38: eventSpots[38] > 0 ? <General.FlowerVase1 {...defaultBg} /> : <Terrain.Grass />,
+    39: eventSpots[39] > 0 ? <General.FlowerVase1 {...defaultBg} /> : <Terrain.Grass />,
+    40: eventSpots[40] > 0 ? <General.FlowerVase1 {...defaultBg} /> : <Terrain.Grass />,
+    41: eventSpots[41] > 0 ? <General.FlowerVase1 {...defaultBg} /> : <Terrain.Grass />,
+    42: eventSpots[42] > 0 ? <General.FlowerVase1 {...defaultBg} /> : <Terrain.Grass />,
+    43: eventSpots[43] > 0 ? <General.FlowerVase1 {...defaultBg} /> : <Terrain.Grass />,
   }
-  return components
+
+  return { elements, mapSpots }
 }

@@ -20,7 +20,6 @@ export const useCharacter = (props?: Props) => {
       allowEvents: number[],
       dir: Directions | undefined
     ) => {
-      console.log('aqui')
       const spotDirections = {
         left: mapSpots[pos.y][pos.x - 1],
         right: mapSpots[pos.y][pos.x + 1],

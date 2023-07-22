@@ -7,7 +7,7 @@ const Stack = createNativeStackNavigator<StackProps>()
 
 export const Router = () => {
   return (
-    <Stack.Navigator>
+    <Stack.Navigator initialRouteName="UnknownWoods">
       <Stack.Screen
         options={{
           headerShown: false,
