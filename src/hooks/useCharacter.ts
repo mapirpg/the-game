@@ -4,6 +4,7 @@ import { AttackPropps, InteractProps, MoveProps } from '../types/character'
 
 interface Props {
   initialPosition?: Coordinates
+  initialHealth?: number
 }
 
 export const useCharacter = (props?: Props) => {
@@ -11,6 +12,8 @@ export const useCharacter = (props?: Props) => {
     props?.initialPosition || { x: 1, y: 1 }
   )
   const [direction, setDirection] = useState<Directions>('down')
+  const maxHealth = 1
+  const [health, setHealth] = useState<number>(props?.initialHealth || 4)
 
   const canDoit = useCallback(
     (
@@ -96,11 +99,35 @@ export const useCharacter = (props?: Props) => {
     }
   }
 
+  const changeStatus = ({
+    cure,
+    damage,
+  }: {
+    cure?: number
+    damage?: number
+  }) => {
+    if (cure && health < maxHealth * 4) {
+      setHealth(health + cure)
+    }
+
+    if (damage && health > 0) {
+      setHealth(health - damage)
+    }
+  }
+
+  const resetPosition = () => {
+    setPosition(props?.initialPosition || { x: 1, y: 1 })
+  }
+
   return {
     move,
     attack,
+    health,
+    interact,
     position,
     direction,
-    interact,
+    maxHealth,
+    changeStatus,
+    resetPosition,
   }
 }

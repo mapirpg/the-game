@@ -6,27 +6,45 @@ import {
   allowTargets,
   initialTargets,
 } from './Ground/constants'
-import { useGroundElements } from './Ground/elements'
+import { rng } from '../../data/rng'
 import { Center, View } from 'native-base'
+import { roll100 } from '../../utils/roll'
+import { Status } from '../../components/Status'
 import { TargetProps } from '../../types/target'
 import { useEffect, useMemo, useState } from 'react'
+import { useGroundElements } from './Ground/elements'
 import { Character } from '../../components/Character'
 import { Inventory } from '../../components/Inventory'
 import { useCharacter } from '../../hooks/useCharacter'
 import { useInventory } from '../../hooks/useInventory'
+import { useGroundElements2 } from './Ground2/elements'
 import { useController } from '../../hooks/useController'
 import { Environment } from '../../components/Environment'
-import { useGroundElements2 } from './Ground2/elements'
+import { dataItems } from '../../data/items'
 
 export const UnknownWoods = () => {
-  const { items, addItem } = useInventory()
+  const { items, addItem } = useInventory({
+    initialItems: [
+      {
+        ...dataItems.weapons.sword,
+      },
+    ],
+  })
   const { movement, interaction, meleeAttack } = useController()
   const [targets, setTargets] = useState<TargetProps[]>(initialTargets)
   const { elements, mapSpots } = useGroundElements({ targets })
   const { elements2, mapSpots2 } = useGroundElements2({ targets: [] })
-  const { direction, position, move, interact, attack } = useCharacter({
-    initialPosition: { x: 28, y: 28 },
-  })
+  const {
+    move,
+    attack,
+    health,
+    position,
+    interact,
+    direction,
+    maxHealth,
+    changeStatus,
+    resetPosition,
+  } = useCharacter({ initialPosition: { x: 2, y: 3 } })
 
   const weapon = useMemo(() => items.find((item) => item.id === 1), [items])
 
@@ -82,6 +100,9 @@ export const UnknownWoods = () => {
               return t
             })
 
+            if (roll100() < rng.damagedByFlowers * 100) {
+              changeStatus({ damage: 1 })
+            }
             setTargets(newTargets)
           },
         })
@@ -91,9 +112,19 @@ export const UnknownWoods = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [meleeAttack])
 
+  useEffect(() => {
+    if (health === 0) {
+      changeStatus({ cure: 4 })
+      resetPosition()
+    }
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [health])
+
   return (
     <Center flex={1} backgroundColor={'#252525'}>
       <View w={480} h={480}>
+        <Status health={health} maxHealth={maxHealth} />
         <Inventory items={items} />
         <Environment zIndex={-1} elements={elements} mapSpots={mapSpots} />
         <Character

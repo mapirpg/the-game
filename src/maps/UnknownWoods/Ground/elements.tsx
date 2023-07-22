@@ -1,4 +1,5 @@
 /* eslint-disable prettier/prettier */
+import * as Door from '../../../sprites/Map/Door'
 import * as Water from '../../../sprites/Map/Water'
 import * as Stone from '../../../sprites/Map/Stone'
 import * as Forest from '../../../sprites/Map/Forest'
@@ -97,7 +98,8 @@ export const useGroundElements = ({ targets }: { targets: TargetProps[] }) => {
     47: <PineC1  {...defaultBg} />,
     48: <Terrain.Grass />,
     49: <Water.WaterBorderLeft2 />,
-    50: <Water.WaterBorderRight2 />
+    50: <Water.WaterBorderRight2 />,
+    51: <Door.CaveDoorB2 />
   }
 
   return { elements, mapSpots }

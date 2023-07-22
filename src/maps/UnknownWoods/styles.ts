@@ -9,3 +9,9 @@ export const waterBg = {
     backgroundColor: '#1e7cb8',
   },
 }
+
+export const ravineBg = {
+  style: {
+    backgroundColor: '#6c4d49',
+  },
+}

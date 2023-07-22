@@ -1,8 +1,14 @@
 import { useState } from 'react'
 import { InventoryProps } from '../types/inventory'
 
-export const useInventory = () => {
-  const [items, setItems] = useState<InventoryProps[]>([])
+interface Props {
+  initialItems?: InventoryProps[]
+}
+
+export const useInventory = (props?: Props) => {
+  const [items, setItems] = useState<InventoryProps[]>(
+    props?.initialItems || []
+  )
 
   return {
     items,
