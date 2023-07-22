@@ -1,9 +1,17 @@
-export type InventoryItemProps = 'Sword' | 'Shield' | 'Potion'
+export type InventoryItemProps = 'weapon' | 'armor' | 'consumable'
+export type ConsumableProps = 'health' | 'mana'
 
 export type InventoryProps = {
   id: number
+  name: string
+  cure?: number
   damage?: number
   quantity?: number
-  name: InventoryItemProps
-  type: 'weapon' | 'armor' | 'potion'
+  type: InventoryItemProps
+}
+
+export type LootProps = {
+  id: number
+  chance: number
+  quantity: number
 }

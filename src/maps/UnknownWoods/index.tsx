@@ -25,14 +25,10 @@ import { useController } from '../../hooks/useController'
 import { Environment } from '../../components/Environment'
 
 export const UnknownWoods = () => {
-  const { items, addItem } = useInventory({
-    initialItems: [
-      {
-        ...itemsData.weapons.sword,
-      },
-    ],
+  const { items, addItem, removeItem } = useInventory({
+    initialItems: [itemsData.weapons.sword, itemsData.consumables.health1],
   })
-  const { movement, interaction, meleeAttack } = useController()
+  const { movement, interaction, meleeAttack, consume } = useController()
   const [targets, setTargets] = useState<TargetProps[]>(initialTargets)
   const { elements, mapSpots } = useGroundElements({ targets })
   const { elements2, mapSpots2 } = useGroundElements2({ targets: [] })
@@ -47,22 +43,24 @@ export const UnknownWoods = () => {
     maxHealth,
     changeStatus,
     resetPosition,
-  } = useCharacter({ initialPosition: { x: 2, y: 3 } })
+  } = useCharacter({ initialPosition: { x: 2, y: 3 }, initialHealth: 1 })
 
   const weapon = useMemo(() => items.find((item) => item.id === 1), [items])
 
+  // MOVE
   useEffect(() => {
     move({ direction: movement, mapSpots, allowSlots })
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [movement])
 
+  // INTERACTION
   useEffect(() => {
     if (interaction) {
       allowEvents.forEach((event) => {
         if (event === 36 && weapon) return
         const existsEvent = targets.find((target) => target.id === event)
-        const existsLoot = allowLoots.find((loot) => loot === event)
+        const existsLoot = allowLoots.find((loot) => loot.id === event)
 
         if (existsEvent) {
           interact({
@@ -88,6 +86,7 @@ export const UnknownWoods = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [interaction])
 
+  // ATTACK
   useEffect(() => {
     if (meleeAttack && weapon) {
       allowTargets.forEach((target) => {
@@ -106,6 +105,16 @@ export const UnknownWoods = () => {
             if (roll100() < rngData.damagedByFlowers * 100) {
               changeStatus({ damage: 1 })
             }
+
+            // eslint-disable-next-line prettier/prettier
+            const isDeadTarget = newTargets.find((t) => t.id === target)?.health === 0
+            if (isDeadTarget) {
+              const isLooteable = allowLoots.find((loot) => loot.id === target)
+              if (isLooteable) {
+                addItem(loots[target])
+              }
+            }
+
             setTargets(newTargets)
           },
         })
@@ -115,15 +124,7 @@ export const UnknownWoods = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [meleeAttack])
 
-  useEffect(() => {
-    if (health === 0) {
-      changeStatus({ cure: 4 })
-      resetPosition()
-    }
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [health])
-
+  // ENVIRONMENT DAMAGE
   useEffect(() => {
     allowEnvDamage.forEach((event) => {
       const spots = findSpots(event.id, mapSpots)
@@ -143,6 +144,29 @@ export const UnknownWoods = () => {
       }
     })
   }, [changeStatus, position, mapSpots])
+
+  // CONSUME
+  useEffect(() => {
+    if (consume && consume === 'health' && health < maxHealth * 4) {
+      const potion = items.find((item) => item.id === 2)
+      if (potion?.quantity !== undefined && potion.quantity > 0) {
+        changeStatus({ cure: potion.cure })
+        removeItem({ ...potion, quantity: 1 })
+      }
+    }
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [consume])
+
+  // DIE
+  useEffect(() => {
+    if (health === 0) {
+      changeStatus({ cure: 4 })
+      resetPosition()
+    }
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [health])
 
   return (
     <Center flex={1} backgroundColor={'#252525'}>

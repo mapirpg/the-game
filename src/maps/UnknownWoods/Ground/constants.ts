@@ -1,21 +1,22 @@
 /* eslint-disable prettier/prettier */
 import { itemsData } from '../../../data/items'
 import { TargetProps } from '../../../types/target'
-import { InventoryProps } from '../../../types/inventory'
+import { InventoryProps, LootProps } from '../../../types/inventory'
 import { timersData } from '../../../data/timers'
 import { EnvDamageProps } from '../../../types/environment'
 import { environmentData } from '../../../data/environment'
+import { rngData } from '../../../data/rng'
 
 export const headquarters = [
   [29, 24, 24, 24, 22, 23, 23, 23, 23, 23, 23, 23, 18, 4, 4, 4, 4, 4, 31, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23],
   [29, 24, 51, 24, 21, 24, 24, 24, 24, 24, 24, 24, 17, 5, 5, 5, 5, 5, 30, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24],
   [29, 0, 0, 0, 20, 19, 19, 19, 19, 19, 19, 19, 15, 6, 6, 6, 6, 6, 16, 19, 19, 19, 19, 19, 19, 19, 19, 19, 19],
   [29, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 12, 8, 8, 8, 8, 8, 14, 0, 0, 0, 0, 0, 0,0, 0, 0, 0],
-  [29, 0, 36, 0, 0, 0, 0, 0, 0, 0, 0, 0, 11, 10, 5, 10, 10, 10, 13, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+  [29, 0, 42, 0, 0, 0, 0, 0, 0, 0, 0, 0, 11, 10, 5, 10, 10, 10, 13, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
   [29, 0, 0, 0, 52, 0, 0, 0, 0, 0, 0, 0, 11, 10, 10, 10, 5, 10, 14, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
   [29, 0, 0, 0, 0, 0, 0, 0, 0, 0, 37, 38, 12, 10, 5, 10, 10, 10, 14, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
   [29, 0, 0, 0, 0, 0, 0, 0, 0, 0, 39, 40, 12, 10, 10, 10, 5, 10, 13, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-  [29, 0, 0, 0, 0, 0, 0, 0, 0, 0, 41, 42, 12, 10, 10, 5, 10, 10, 13, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+  [29, 0, 0, 0, 0, 0, 0, 0, 0, 0, 41, 0, 12, 10, 10, 5, 10, 10, 13, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
   [29, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 11, 10, 10, 10, 10, 10, 14, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
   [29, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 12, 10, 10, 10, 10, 5, 14, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
   [29, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 11, 10, 10, 5, 10, 10, 13, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
@@ -46,14 +47,23 @@ export const initialTargets: TargetProps[] = [
   { id: 39, health: 1},
   { id: 40, health: 1},
   { id: 41, health: 1},
-  { id: 42, health: 1},
+  { id: 42, health: 3},
   { id: 43, health: 1},
 ]
 
 export const allowSlots = [0, 11, 12, 13, 14, 32, 33, 34, 35, 51, 52]
 export const allowEvents = [36]
 export const allowTargets = [37, 38, 39, 40, 41, 42, 43]
-export const allowLoots = [36]
+export const allowLoots: LootProps[] = [
+  { id: 36, chance: 1, quantity: 1 },
+  { id: 37, chance: rngData.flowerDropPotion, quantity: 1 },
+  { id: 38, chance: rngData.flowerDropPotion, quantity: 1 },
+  { id: 39, chance: rngData.flowerDropPotion, quantity: 1 },
+  { id: 40, chance: rngData.flowerDropPotion, quantity: 1 },
+  { id: 41, chance: rngData.flowerDropPotion, quantity: 1 },
+  { id: 42, chance: rngData.flowerDropPotion, quantity: 1 },
+]
+
 export const allowEnvDamage: EnvDamageProps[] = [
   {
     id: 52,
@@ -63,5 +73,11 @@ export const allowEnvDamage: EnvDamageProps[] = [
 ]
 
 export const loots: Record<number, InventoryProps> = {
-  36: itemsData.weapons.sword
+  36: itemsData.weapons.sword,
+  37: itemsData.consumables.health1,
+  38: itemsData.consumables.health1,
+  39: itemsData.consumables.health1,
+  40: itemsData.consumables.health1,
+  41: itemsData.consumables.health1,
+  42: itemsData.consumables.health1,
 }
