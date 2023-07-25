@@ -1,6 +1,6 @@
-import { Player, MeleeAttackingPlayer } from '../../sprites/Char/Player'
 import { PlayerProps } from '../../types/character'
 import { InventoryProps } from '../../types/inventory'
+import { Player, MeleeAttackingPlayer } from '../../sprites/Char/Player'
 
 interface Props extends PlayerProps {
   name?: string

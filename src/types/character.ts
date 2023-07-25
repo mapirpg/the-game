@@ -1,20 +1,20 @@
-import { Directions } from './global'
+import { IDirections } from './global'
 
 export interface PlayerProps {
   top: number
   left: number
-  direction?: Directions
+  direction?: IDirections
 }
 
 export type MoveProps = {
-  direction?: Directions
+  direction?: IDirections
   mapSpots: number[][]
   allowSlots?: number[]
 }
 
 export type InteractProps = {
   event: number
-  dir?: Directions
+  dir?: IDirections
   doIt: () => void
   mapSpots: number[][]
   allowEvents?: number[]

@@ -1,7 +1,7 @@
-export type Coordinates = {
+export type IPosition = {
   x: number
   y: number
   z?: number
 }
 
-export type Directions = 'up' | 'down' | 'left' | 'right'
+export type IDirections = 'up' | 'down' | 'left' | 'right'

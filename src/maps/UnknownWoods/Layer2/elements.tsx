@@ -1,0 +1,77 @@
+import { headquarters } from './constants'
+import { Empty } from '../../../sprites/Map/Empty'
+import * as Door from '../../../sprites/Map/Door'
+import * as Tree from '../../../sprites/Map/Trees'
+import * as Build from '../../../sprites/Builds/Edification'
+
+export const useLayer2Elements = () => {
+  const mapSpots2 = headquarters
+
+  const elements2: Record<number, React.ReactNode> = {
+    0: <Empty />,
+    1: <Tree.PineA1 />,
+    2: <Tree.PineB1 />,
+    3: <Tree.PineC1 />,
+    4: <Door.CaveDoorA1 />,
+    5: <Door.CaveDoorB1 />,
+    6: <Door.CaveDoorC1 />,
+    7: <Door.CaveDoorA2 />,
+    8: <Door.CaveDoorB2 />,
+    9: <Door.CaveDoorC2 />,
+    10: <Door.CaveDoorA3 />,
+    11: <Door.CaveDoorB3 />,
+    12: <Door.CaveDoorC3 />,
+    53: <Build.GreatWoodHouseA1 />,
+    54: <Build.GreatWoodHouseA2 />,
+    55: <Build.GreatWoodHouseA3 />,
+    56: <Build.GreatWoodHouseA4 />,
+    57: <Build.GreatWoodHouseA5 />,
+    58: <Build.GreatWoodHouseB1 />,
+    59: <Build.GreatWoodHouseB2 />,
+    60: <Build.GreatWoodHouseB3 />,
+    61: <Build.GreatWoodHouseB4 />,
+    62: <Build.GreatWoodHouseB5 />,
+    63: <Build.GreatWoodHouseC1 />,
+    64: <Build.GreatWoodHouseC2 />,
+    65: <Build.GreatWoodHouseC3 />,
+    66: <Build.GreatWoodHouseC4 />,
+    67: <Build.GreatWoodHouseC5 />,
+    68: <Build.GreatWoodHouseD1 />,
+    69: <Build.GreatWoodHouseD2 />,
+    70: <Build.GreatWoodHouseD3 />,
+    71: <Build.GreatWoodHouseD4 />,
+    72: <Build.GreatWoodHouseD5 />,
+    73: <Build.GreatWoodHouseE1 />,
+    74: <Build.GreatWoodHouseE2 />,
+    75: <Build.GreatWoodHouseE3 />,
+    76: <Build.GreatWoodHouseE4 />,
+    77: <Build.GreatWoodHouseE5 />,
+    78: <Build.GreatWoodHouseBackA1 />,
+    79: <Build.GreatWoodHouseBackA2 />,
+    80: <Build.GreatWoodHouseBackA3 />,
+    81: <Build.GreatWoodHouseBackA4 />,
+    82: <Build.GreatWoodHouseBackA5 />,
+    83: <Build.GreatWoodHouseBackB1 />,
+    84: <Build.GreatWoodHouseBackB2 />,
+    85: <Build.GreatWoodHouseBackB3 />,
+    86: <Build.GreatWoodHouseBackB4 />,
+    87: <Build.GreatWoodHouseBackB5 />,
+    88: <Build.GreatWoodHouseBackC1 />,
+    89: <Build.GreatWoodHouseBackC2 />,
+    90: <Build.GreatWoodHouseBackC3 />,
+    91: <Build.GreatWoodHouseBackC4 />,
+    92: <Build.GreatWoodHouseBackC5 />,
+    93: <Build.GreatWoodHouseBackD1 />,
+    94: <Build.GreatWoodHouseBackD2 />,
+    95: <Build.GreatWoodHouseBackD3 />,
+    96: <Build.GreatWoodHouseBackD4 />,
+    97: <Build.GreatWoodHouseBackD5 />,
+    98: <Build.GreatWoodHouseBackE1 />,
+    99: <Build.GreatWoodHouseBackE2 />,
+    100: <Build.GreatWoodHouseBackE3 />,
+    101: <Build.GreatWoodHouseBackE4 />,
+    102: <Build.GreatWoodHouseBackE5 />,
+  }
+
+  return { elements2, mapSpots2 }
+}

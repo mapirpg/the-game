@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react'
-import { Directions } from '../types/global'
+import { IDirections } from '../types/global'
 import { ConsumableProps } from '../types/inventory'
 
 export const useController = () => {
-  const [movement, setMovement] = useState<Directions | undefined>()
+  const [movement, setMovement] = useState<IDirections | undefined>()
   const [interaction, setInteracion] = useState<boolean | undefined>()
   const [meleeAttack, setMeleeAttack] = useState<boolean | undefined>()
   const [consume, setConsume] = useState<ConsumableProps | undefined>()
@@ -20,14 +20,14 @@ export const useController = () => {
   }, [])
 
   const handleMove = (e: KeyboardEvent) => {
-    const arrowMoves: Record<string, Directions> = {
+    const arrowMoves: Record<string, IDirections> = {
       ArrowUp: 'up',
       ArrowDown: 'down',
       ArrowLeft: 'left',
       ArrowRight: 'right',
     }
 
-    const wasdMoves: Record<string, Directions> = {
+    const wasdMoves: Record<string, IDirections> = {
       KeyW: 'up',
       KeyS: 'down',
       KeyA: 'left',

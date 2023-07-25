@@ -7,17 +7,19 @@ const Stack = createNativeStackNavigator<StackProps>()
 
 export const Router = () => {
   return (
-    <Stack.Navigator initialRouteName="UnknownWoods">
+    <Stack.Navigator>
       <Stack.Screen
         options={{
           headerShown: false,
+          title: 'The legend of Leonard',
         }}
-        name="The Game"
+        name="Welcome"
         component={Welcome}
       />
       <Stack.Screen
         options={{
           headerShown: false,
+          title: 'Unknown Woods',
         }}
         name="UnknownWoods"
         component={UnknownWoods}

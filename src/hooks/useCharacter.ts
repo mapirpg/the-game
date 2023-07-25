@@ -1,27 +1,27 @@
 import { useCallback, useState } from 'react'
-import { Coordinates, Directions } from '../types/global'
+import { IPosition, IDirections } from '../types/global'
 import { AttackPropps, InteractProps, MoveProps } from '../types/character'
 
 interface Props {
-  initialPosition?: Coordinates
+  initialPosition?: IPosition
   initialHealth?: number
 }
 
 export const useCharacter = (props?: Props) => {
-  const [position, setPosition] = useState<Coordinates>(
+  const [position, setPosition] = useState<IPosition>(
     props?.initialPosition || { x: 1, y: 1 }
   )
-  const [direction, setDirection] = useState<Directions>('down')
+  const [direction, setDirection] = useState<IDirections>('down')
   const maxHealth = 1
   const [health, setHealth] = useState<number>(props?.initialHealth || 4)
 
   const canDoit = useCallback(
     (
       event: number,
-      pos: Coordinates,
+      pos: IPosition,
       mapSpots: number[][],
       allowEvents: number[],
-      dir: Directions | undefined
+      dir: IDirections | undefined
     ) => {
       const spotDirections = {
         left: mapSpots[pos.y][pos.x - 1],
@@ -39,7 +39,7 @@ export const useCharacter = (props?: Props) => {
 
   const move = ({ mapSpots, allowSlots, direction }: MoveProps) => {
     if (direction) {
-      const canMove = (pos: Coordinates) => {
+      const canMove = (pos: IPosition) => {
         const nextSpot = mapSpots[pos.y][pos.x]
 
         return allowSlots?.includes(nextSpot) || nextSpot === 0
